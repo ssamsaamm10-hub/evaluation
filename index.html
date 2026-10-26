@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Interview Evaluation Sheet</title><style>
+:root{--bg:#f8efe4;--card:#fffaf4;--tx:#5a3d46;--mu:#a58a8f;--pk:#e58fa7;--pk2:#f9dfe6;--pk3:#f1c1cf;--dp:#c2547a;--ln:#ecd9cc;--ok:#7bc6a4;--okb:#e3f6ec;--mb:#fff3d6;--mt:#e9a93b;--nb:#ffe3e3;--nt:#e06c6c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#2a1a22;--card:#38222d;--tx:#fbe4ee;--mu:#c79bb0;--pk:#f48fb1;--pk2:#4a2b38;--pk3:#6a3a4e;--dp:#ff8fb8;--ln:#553444;--okb:#254a3a;--mb:#4d4020;--nb:#55282c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;padding:18px}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}h1{margin:0;font-size:24px;color:var(--dp)}.top small{color:var(--mu)}.sp{flex:1}
+button{font:inherit;cursor:pointer}.add{background:var(--pk);color:#fff;border:0;border-radius:99px;padding:10px 20px;font-weight:700;box-shadow:0 3px 10px rgba(244,143,177,.45)}.add:hover{filter:brightness(1.05)}
+.wrap{overflow:auto;border-radius:18px;background:var(--card);border:1px solid var(--ln);box-shadow:0 6px 24px rgba(244,143,177,.2)}
+table{border-collapse:separate;border-spacing:0;min-width:1900px;width:100%}th,td{padding:10px 8px;border-bottom:1px solid var(--ln);vertical-align:top;text-align:center;font-size:13px}
+th{background:var(--pk2);color:var(--dp);position:sticky;top:0;z-index:2;font-size:12px}th small{display:block;font-weight:500;color:var(--mu);margin-top:3px;line-height:1.4}th.q{direction:rtl}th.q small{font-size:11px}
+.nm{position:sticky;left:0;background:var(--card);z-index:1;min-width:170px;text-align:left;border-right:1px solid var(--ln)}th.nm{z-index:3;background:var(--pk2)}
+input[type=text],textarea{width:100%;border:1.5px solid var(--pk3);background:var(--bg);color:var(--tx);border-radius:10px;padding:8px;font:inherit;font-size:13px}input:focus,textarea:focus{outline:2px solid var(--pk);border-color:var(--pk)}textarea{min-height:64px;resize:vertical}
+.c label{display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;color:var(--mu)}.c input{accent-color:var(--pk);width:18px;height:18px}
+.rt{display:flex;gap:4px;justify-content:center;margin-top:8px}.rt button{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--pk3);background:var(--card);color:var(--tx);font-size:12px;padding:0}.rt button.on{background:var(--pk);border-color:var(--pk);color:#fff;font-weight:800}.rt button:hover{border-color:var(--pk)}
+.vd{display:flex;flex-direction:column;gap:6px;min-width:120px}.vd button{border:1.5px solid var(--ln);background:var(--card);color:var(--tx);border-radius:10px;padding:7px 10px;font-size:12px}.vd .y.on{background:var(--okb);border-color:var(--ok);font-weight:700}.vd .m.on{background:var(--mb);border-color:var(--mt);font-weight:700}.vd .n.on{background:var(--nb);border-color:var(--nt);font-weight:700}
+.sc{min-width:110px}.sc .big{font-size:22px;font-weight:800;color:var(--dp)}.sc .pg{color:var(--mu);font-size:12px}.sc .pc{display:inline-block;margin-top:4px;background:var(--pk2);border-radius:99px;padding:2px 10px;font-size:12px;color:var(--dp)}
+.del{border:0;background:transparent;color:var(--mu);font-size:22px;line-height:1}.del:hover{color:var(--nt)}.empty{padding:40px;text-align:center;color:var(--mu)}
+</style></head><body>
+<div class="top"><h1>Interview Evaluation Sheet</h1><small>Class &amp; Major Representatives</small><span class="sp"></span><button class="add" onclick="addRow()">+ Add new row</button></div>
+<div class="wrap"><table><thead id="th"></thead><tbody id="tb"></tbody></table><div class="empty" id="em">No candidates yet. Press “Add new row” to start.</div></div>
+<script>
+const CR=[["Responsibility","Follows through on commitments"],["Flexibility","Adapts to changes and feedback"],["Previous experience","Roles, clubs, projects"],["Available time / week","Can commit enough hours"],["Communication","Clear and confident"],["Teamwork","Works well with others"],["Initiative","Takes action without being asked"]];
+const QS=[["بيجمع معلومات إزاي؟","بتقدر تجمّع ماتيريالز ومعلومات للطلبة؟ طب إزاي؟"],["موقف حصل","احكيلي موقف واجهتي/واجهت فيه مشكلة وإزاي اتصرفت"],["الأوبرتيونيتيز","تعرف إيه عن الأوبرتيونيتيز اللي نقدر نقدمها للطلبة (إنترنشيبز، كورسات، مسابقات)؟"],["شكوى طالب","لو طالب جالك بيشتكي من مادة أو دكتور، هتعمل إيه؟"],["الضغط والأولويات","لو في تعارض بين مسؤولياتك والامتحانات، هتظبط الدنيا إزاي؟"]];
+const MAX=(CR.length+QS.length)*5,KEY="eval-sheet-v1";let R=[];
+try{R=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){R=[]}
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem(KEY,JSON.stringify(R))}catch(e){}}
+$("th").innerHTML="<tr><th class='nm'>Candidate name</th>"+CR.map(c=>`<th>${c[0]}<small>${c[1]}</small></th>`).join("")+QS.map(q=>`<th class="q">${q[0]}<small>${q[1]}</small></th>`).join("")+"<th>Overall verdict</th><th>Comments</th><th>Score</th><th></th></tr>";
+function stats(r){const v=[...r.c,...r.q].filter(x=>x>0);return{n:v.length,sum:v.reduce((a,b)=>a+b,0)}}
+function addRow(){R.push({name:"",c:CR.map(()=>-1),q:QS.map(()=>0),v:"",cm:""});save();draw()}
+function rating(val,set){const d=document.createElement("div");d.className="rt";[1,2,3,4,5].forEach(n=>{const b=document.createElement("button");b.textContent=n;if(val===n)b.className="on";b.onclick=()=>set(val===n?0:n);d.appendChild(b)});return d}
+function draw(){const tb=$("tb");tb.innerHTML="";$("em").style.display=R.length?"none":"block";
+R.forEach((r,ri)=>{const tr=document.createElement("tr");
+const tn=document.createElement("td");tn.className="nm";const inp=document.createElement("input");inp.type="text";inp.placeholder="Type candidate name…";inp.value=r.name;inp.oninput=()=>{r.name=inp.value;save()};tn.appendChild(inp);tr.appendChild(tn);
+CR.forEach((c,i)=>{const td=document.createElement("td");td.className="c";const lb=document.createElement("label");const ck=document.createElement("input");ck.type="checkbox";ck.checked=r.c[i]>=0;ck.onchange=()=>{r.c[i]=ck.checked?0:-1;save();draw()};lb.appendChild(ck);lb.appendChild(document.createTextNode(r.c[i]>=0?"Rate":"Tick"));td.appendChild(lb);if(r.c[i]>=0)td.appendChild(rating(r.c[i],n=>{r.c[i]=n;save();draw()}));tr.appendChild(td)});
+QS.forEach((q,i)=>{const td=document.createElement("td");td.appendChild(rating(r.q[i],n=>{r.q[i]=n;save();draw()}));tr.appendChild(td)});
+const tv=document.createElement("td");const vd=document.createElement("div");vd.className="vd";[["y","Good to go"],["m","Maybe"],["n","Not a fit"]].forEach(([k,t])=>{const b=document.createElement("button");b.className=k+(r.v===k?" on":"");b.textContent=t;b.onclick=()=>{r.v=r.v===k?"":k;save();draw()};vd.appendChild(b)});tv.appendChild(vd);tr.appendChild(tv);
+const tc=document.createElement("td");tc.style.minWidth="220px";const ta=document.createElement("textarea");ta.placeholder="Comments…";ta.value=r.cm;ta.oninput=()=>{r.cm=ta.value;save()};tc.appendChild(ta);tr.appendChild(tc);
+const s=stats(r),ts=document.createElement("td");ts.className="sc";const tot=CR.length+QS.length;
+ts.innerHTML=s.n===tot?`<div class="big">${s.sum} / ${MAX}</div><span class="pc">${Math.round(s.sum/MAX*100)}%</span>`:`<div class="pg">${s.n} / ${tot} rated</div><div class="pg">score appears when done</div>`;tr.appendChild(ts);
+const td=document.createElement("td");const x=document.createElement("button");x.className="del";x.textContent="×";x.title="Delete row";x.onclick=()=>{if(confirm("Delete this row?")){R.splice(ri,1);save();draw()}};td.appendChild(x);tr.appendChild(td);
+tb.appendChild(tr)})}
+draw();
+</script></body></html>
